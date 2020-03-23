@@ -8,8 +8,24 @@ namespace aptauja
         class JautajumsUnAtbilde
         {
             public string Jautajums { get; set; }
-            public string Atbilde { get; set; }
+ 
+            private string atbilde;
+            public string Atbilde
+            {
+                get
+                {
+                    return atbilde.ToLower();
+                }
+                set
+                {
+                    atbilde = value;
+                }
+            }
             public string PareizaAtbilde { get; set; }
+            public string Rezultats()
+            {
+                return Atbilde == PareizaAtbilde ? "Pareizi" : "Kļūda";
+            }
         }
        
 
@@ -39,25 +55,16 @@ namespace aptauja
             foreach (JautajumsUnAtbilde j in saraksts)
             {
                 Console.WriteLine(j.Jautajums);              
-                j.Atbilde = Console.ReadLine().ToLower();
+                j.Atbilde = Console.ReadLine();
                 Console.WriteLine();
 
-                
-                if (j.PareizaAtbilde == j.Atbilde)
-                {
-                    Console.WriteLine("Pareizi!");
-                    pareizaAtbilde++;
-                    Console.WriteLine();
-                }
-                else
-                {
-                    Console.WriteLine("Kļūda!");
-                    kluduSkaits++;
-                    Console.WriteLine();
-                }
+                Console.WriteLine(j.Rezultats());
+                Console.WriteLine();
+
             }
 
             Console.WriteLine("Pareizas atbildes: " + pareizaAtbilde.ToString());
+            
             Console.WriteLine("Kļūdu skaits: " + kluduSkaits.ToString());
         }
 
