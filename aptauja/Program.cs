@@ -8,7 +8,7 @@ namespace aptauja
         class JautajumsUnAtbilde
         {
             public string Jautajums { get; set; }
- 
+
             private string atbilde;
             public string Atbilde
             {
@@ -22,52 +22,74 @@ namespace aptauja
                 }
             }
             public string PareizaAtbilde { get; set; }
+
             public string Rezultats()
             {
                 return Atbilde == PareizaAtbilde ? "Pareizi" : "Kļūda";
             }
         }
-       
 
-       static List<JautajumsUnAtbilde> saraksts = new List<JautajumsUnAtbilde>();
+        class AptaujasRezultats
+        {
+            public List<JautajumsUnAtbilde> Saraksts { get; set; }
+            public int Kludas()
+            {
+                int kludas = 0;
+                foreach (JautajumsUnAtbilde a in Saraksts)
+                {
+                    if (a.Rezultats() == "Kļūda")
+                    {
+                        kludas++;
+                    }
+                }
+                return kludas;
+            }
+            public int Pareizas()
+            {
+                int pareizi = 0;
+                foreach (JautajumsUnAtbilde a in Saraksts)
+                {
+                    if (a.Rezultats() == "Pareizi")
+                    {
+                        pareizi++;
+                    }
+                }
+                return pareizi;
+                //return Saraksts.Count(s => s.Rezultats() == "Pareizi");
+            }
+        }
 
         static void Main(string[] args)
-        {           
+        {
             Console.WriteLine("APTAUJA");
             Console.WriteLine();
+
+            AptaujasRezultats rezultats = new AptaujasRezultats();
+            rezultats.Saraksts = new List<JautajumsUnAtbilde>();
 
             void AizpilditJautajumu(string jautajums, string pareizaAtbilde)
             {
                 JautajumsUnAtbilde j = new JautajumsUnAtbilde();
                 j.Jautajums = jautajums;
                 j.PareizaAtbilde = pareizaAtbilde;
-                saraksts.Add(j);
-              
+                rezultats.Saraksts.Add(j);
             }
 
-            AizpilditJautajumu("Kā sauc četrstūrainu figūru?", "kvadrāts");  
-            AizpilditJautajumu("Cik ir 2+2?", "4");         
+            AizpilditJautajumu("Kā sauc četrstūrainu figūru?", "kvadrāts");
+            AizpilditJautajumu("Cik ir 2+2?", "4");
             AizpilditJautajumu("Kādās krāsās ir Latvijas karogs?", "sarkans, balts, sarkans");
 
-            int kluduSkaits = 0;
-            int pareizaAtbilde = 0;
-
-            foreach (JautajumsUnAtbilde j in saraksts)
+            foreach (JautajumsUnAtbilde j in rezultats.Saraksts)
             {
-                Console.WriteLine(j.Jautajums);              
+                Console.WriteLine(j.Jautajums);
                 j.Atbilde = Console.ReadLine();
                 Console.WriteLine();
-
                 Console.WriteLine(j.Rezultats());
-                Console.WriteLine();
-
             }
 
-            Console.WriteLine("Pareizas atbildes: " + pareizaAtbilde.ToString());
-            
-            Console.WriteLine("Kļūdu skaits: " + kluduSkaits.ToString());
+            Console.WriteLine("Pareizas atbildes: " + rezultats.Pareizas());
+            Console.WriteLine("Kļūdu skaits: " + rezultats.Kludas());
         }
-
     }
 
 }
